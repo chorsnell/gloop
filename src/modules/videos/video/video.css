@@ -1,0 +1,26 @@
+.video {
+    position: fixed;
+    width: 75%;
+    height: 100%;
+    background: #343a40;
+    left: 0;
+}
+.video iframe {
+    height: calc(100% - 170px);
+}
+.nav {
+    background: #2c3237;
+    height: 100%;
+    width: 25%;
+    left: 75%;
+    top: 0;
+    position: fixed;
+    overflow: auto;
+}
+
+.controls {
+    position: absolute;
+    bottom: 0;
+    height: 170px;
+    width: 100%;
+}
