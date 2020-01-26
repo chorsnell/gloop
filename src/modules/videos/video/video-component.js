@@ -42,7 +42,7 @@ class VideoComponent extends React.Component {
 		this.pauseVideo = this.pauseVideo.bind(this);
 		this.setSpeed = this.setSpeed.bind(this);
 		this.videoTimerProgress = this.videoTimerProgress.bind(this);
-		this.handler = this.handler.bind(this);
+		this.rangeHandler = this.rangeHandler.bind(this);
 
 		this.videoTimer = null;
 	}
