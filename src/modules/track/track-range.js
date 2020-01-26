@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Range, getTrackBackground } from 'react-range';
 
-const STEP = 0.1;
+// FROM - https://github.com/tajo/react-range/blob/master/examples/TwoThumbs.tsx
+
+const STEP = 0.5;
 const MIN = 0;
 const MAX = 100;
 
 class TrackRange extends React.Component {
   state = {
-    values: [25, 75]
+    values: [0, this.props.duration]
   };
   render() {
     return (
@@ -26,7 +28,7 @@ class TrackRange extends React.Component {
           onChange={values => {
             this.setState({ values })
           }}
-          onFinalChange={this.props.handler}
+          onFinalChange={this.props.rangeHandler}
           renderTrack={({ props, children }) => (
             <div
               onMouseDown={props.onMouseDown}
