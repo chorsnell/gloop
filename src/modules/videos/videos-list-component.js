@@ -9,17 +9,26 @@ function VideosListComponent() {
     {
       "url": "https://www.youtube.com/watch?v=WGoDaYjdfSg",
       "title": "The Jimi Hendrix Experience - Purple Haze (Audio)",
-      "img": "https://i.ytimg.com/vi/WGoDaYjdfSg/hqdefault.jpg"
+      "img": "https://i.ytimg.com/vi/WGoDaYjdfSg/hqdefault.jpg",
+      "id": "WGoDaYjdfSg"
     },
     {
       "url": "https://www.youtube.com/watch?v=tAGnKpE4NCI",
       "title": "Metallica: Nothing Else Matters (Official Music Video)",
-      "img": "https://i.ytimg.com/vi/tAGnKpE4NCI/hqdefault.jpg"
+      "img": "https://i.ytimg.com/vi/tAGnKpE4NCI/hqdefault.jpg",
+      "id": "tAGnKpE4NCI"
     },
     {
       "url": "https://www.youtube.com/watch?v=xnKhsTXoKCI",
       "title": "Metallica-Master Of Puppets (Lyrics)",
-      "img": "https://i.ytimg.com/vi/xnKhsTXoKCI/hqdefault.jpg"
+      "img": "https://i.ytimg.com/vi/xnKhsTXoKCI/hqdefault.jpg",
+      "id": "xnKhsTXoKCI"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=4qHX493bB3U",
+      "title": "The Troggs- Wild Thing",
+      "img": "https://i.ytimg.com/vi/4qHX493bB3U/hqdefault.jpg",
+      "id": "4qHX493bB3U"
     }
   ];
 

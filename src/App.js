@@ -12,9 +12,7 @@ function App() {
 					<Route exact path="/">
             <VideosListComponent></VideosListComponent>
 					</Route>
-					<Route exact path="/video">
-            <VideoComponent></VideoComponent>
-					</Route>
+					<Route path="/video/:id" component={VideoComponent} />
 				</Switch>
 			</div>
 		</Router>
