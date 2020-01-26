@@ -1,9 +1,12 @@
-.video {
+.main {
     position: fixed;
     width: 75%;
     height: 100%;
     background: #343a40;
     left: 0;
+}
+.video {
+    height: 100%;
 }
 .video iframe {
     height: calc(100% - 170px);
@@ -23,4 +26,14 @@
     bottom: 0;
     height: 170px;
     width: 100%;
+}
+
+.track-wrapper {
+    background: #303030;
+    height: 10px;
+}
+.track-wrapper .track-progress {
+    background: #ff0000;
+    height: 100%;
+    width: 0;
 }
