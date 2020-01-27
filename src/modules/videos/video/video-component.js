@@ -87,8 +87,8 @@ class VideoComponent extends React.Component {
 	 *
 	 * @memberof VideoComponent
 	 */
-	setSpeed() {
-		this.state.player.setPlaybackRate(0.5);
+	setSpeed(speed) {
+		this.state.player.setPlaybackRate(speed);
 	}
 
 	/**
@@ -157,7 +157,10 @@ class VideoComponent extends React.Component {
 						<div class="buttons">
 							<button onClick={this.playVideo}>Play</button>
 							<button onClick={this.pauseVideo}>Pause</button>
-							<button onClick={this.setSpeed}>Slow</button>
+							-
+							<button onClick={() => this.setSpeed(0.5)}>0.5</button>
+							<button onClick={() => this.setSpeed(0.75)}>0.75</button>
+							<button onClick={() => this.setSpeed(1)}>1</button>
 						</div>
 					</div>
 				</section>
