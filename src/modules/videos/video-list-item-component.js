@@ -5,7 +5,7 @@ function VideoListItemComponent({ video }) {
   return (
     <li key={video.id}>
         <a href={ '/video/' + video.id }>
-            <img src={ video.img } />
+            <img src={ 'https://i.ytimg.com/vi/'+video.id+'/hqdefault.jpg' } />
             <div>{video.title}</div>
         </a>
     </li>
