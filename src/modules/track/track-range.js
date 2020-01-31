@@ -11,6 +11,11 @@ class TrackRange extends React.Component {
   state = {
     values: [0, this.props.duration]
   };
+  changeTrack = (newTrack) => {
+    this.setState({
+      values: newTrack
+    });
+  }
   render() {
     return (
       <div
