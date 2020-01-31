@@ -1,5 +1,5 @@
 import React from 'react';
-import VideoListItemComponent from './video-list-item-component';
+import VideoListItemComponent from './videos-list-item-component';
 import './Videos.css';
 import store from 'store';
 import queryString from 'query-string';
