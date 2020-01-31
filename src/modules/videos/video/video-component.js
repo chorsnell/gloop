@@ -2,7 +2,8 @@ import React from 'react';
 import './video.css';
 import YouTube from 'react-youtube';
 import TrackRange from '../../track/track-range';
-var store = require('store');
+import store from 'store';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 // Example plugin usage:
 //var operationsPlugin = require('store/plugins/operations');
 //store.addPlugin(operationsPlugin)
@@ -59,11 +60,17 @@ class VideoComponent extends React.Component {
 		this.rangeHandler = this.rangeHandler.bind(this);
 		this.saveTrack = this.saveTrack.bind(this);
 		this.deleteTrack = this.deleteTrack.bind(this);
+		this.restartTrack = this.restartTrack.bind(this);
 
 		this.videoTimer = null;
 
 		
 		this.TrackRangeElement = React.createRef();
+	}
+
+	restartTrack() {
+		console.log('restart');
+		this.state.player.seekTo(this.state.range[0]);
 	}
 
 	saveTrack() {
@@ -200,9 +207,12 @@ class VideoComponent extends React.Component {
 	render() {
 		return (
 			<div className="wrapper">
+				<KeyboardEventHandler
+					handleKeys={['c', 'ctrl+home']}
+					onKeyEvent={this.restartTrack} />
 				<section className="main">
 					<YouTube
-						videoId={this.state.videoId}
+						videoId={this.state.videoId} 
 						onReady={this.onReady}
 						opts={opts}
 						containerClassName="video"
@@ -228,11 +238,11 @@ class VideoComponent extends React.Component {
 					</div>
 				</section>
 				<section className="nav">
-				<ul>
-					{this.state.tracks.map((track, index) =>
-						<li key={index}>{track[0]} - {track[1]} - name - edit - <button onClick={() => this.rangeHandler(track)}>use</button> - <button onClick={() => this.deleteTrack(index)}>delete</button></li>
-					)}
-				</ul>
+					<ul>
+						{this.state.tracks.map((track, index) =>
+							<li key={index}>{track[0]} - {track[1]} - name - edit - <button onClick={() => this.rangeHandler(track)}>use</button> - <button onClick={() => this.deleteTrack(index)}>delete</button></li>
+						)}
+					</ul>
 				</section>
 			</div>
 		);
