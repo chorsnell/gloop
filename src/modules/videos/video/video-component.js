@@ -46,7 +46,7 @@ class VideoComponent extends React.Component {
 			range: [0, 100],
 			tracks: video.tracks || [],
 			video: video,
-			index: index,
+			index: index, // video index
 		};
 
 		console.log(this.state.video);
@@ -58,6 +58,7 @@ class VideoComponent extends React.Component {
 		this.videoTimerProgress = this.videoTimerProgress.bind(this);
 		this.rangeHandler = this.rangeHandler.bind(this);
 		this.saveTrack = this.saveTrack.bind(this);
+		this.deleteTrack = this.deleteTrack.bind(this);
 
 		this.videoTimer = null;
 
@@ -73,6 +74,9 @@ class VideoComponent extends React.Component {
 		console.log(this.state.video);
 
 		this.setState(state => {
+			if(!state.video.tracks) {
+				state.video.tracks = [];
+			}
 			const tracks = [...state.video.tracks, this.state.range];
 			const video = state.video;
 			video.tracks = tracks;
@@ -86,6 +90,21 @@ class VideoComponent extends React.Component {
 				tracks: tracks,
 			};
 		  });
+	}
+
+	deleteTrack(index) {
+
+		this.setState({tracks: this.state.tracks.filter(function(tracks, tindex) {
+			return tindex !== index
+		})}, () => {
+			console.log(this.state.video);
+			const video = this.state.video;
+			video.tracks = this.state.tracks;
+
+			var videos = store.get('videos') || [];
+			videos[this.state.index] = video;
+			store.set('videos', videos);
+		});
 	}
 
 	/**
@@ -211,7 +230,7 @@ class VideoComponent extends React.Component {
 				<section className="nav">
 				<ul>
 					{this.state.tracks.map((track, index) =>
-						<li key={index}>{track[0]} - {track[1]} - name - edit - <button onClick={() => this.rangeHandler(track)}>use</button></li>
+						<li key={index}>{track[0]} - {track[1]} - name - edit - <button onClick={() => this.rangeHandler(track)}>use</button> - <button onClick={() => this.deleteTrack(index)}>delete</button></li>
 					)}
 				</ul>
 				</section>
