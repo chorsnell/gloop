@@ -84,7 +84,8 @@ class VideoComponent extends React.Component {
 			if(!state.video.tracks) {
 				state.video.tracks = [];
 			}
-			const tracks = [...state.video.tracks, this.state.range];
+			const track = {name: 'New Loop', range: this.state.range}
+			const tracks = [...state.video.tracks, track];
 			const video = state.video;
 			video.tracks = tracks;
 
@@ -186,14 +187,14 @@ class VideoComponent extends React.Component {
 	 * @memberof VideoComponent
 	 */
 	rangeHandler(event) {
-		this.TrackRangeElement.current.changeTrack(event);
+		this.TrackRangeElement.current.changeTrack(event.range);
 		console.log('rangeHandler', event);
 		// sets range in state
 		this.setState({
 			range: event,
 		});
 		// resets player to start of range
-		this.state.player.seekTo(event[0]);
+		this.state.player.seekTo(event.range[0]);
 		// play video
 		this.playVideo();
 	}
