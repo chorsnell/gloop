@@ -4,7 +4,7 @@ import YouTube from 'react-youtube';
 import TrackRange from '../../track/track-range';
 import store from 'store';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
-import update from 'react-addons-update'; // ES6
+import update from 'immutability-helper'; // ES6
 // Example plugin usage:
 //var operationsPlugin = require('store/plugins/operations');
 //store.addPlugin(operationsPlugin)
@@ -313,14 +313,26 @@ class VideoComponent extends React.Component {
 						{this.state.tracks.map((track, index) =>
 							<li key={index}>
 								<a onClick={() => this.rangeHandler(track.range)}>
-									{track.name}<br></br>
+									<label>{track.name}</label><br />
 									{track.range[0]} - {track.range[1]}
 								</a>
-								<button onClick={() => this.editTrack(index)}>edit</button> - <button onClick={() => this.deleteTrack(index)}>delete</button>
-								<form onSubmit={this.handleSubmit}>
-									<input type="text" value={track.name} onChange={e => this.handleChange(e.target.value)} />
-									<input type="submit" value="Submit" />
-								</form>
+								{ track.edit
+									? null :
+									<span>
+										<button onClick={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: true}}}) })}>edit</button>
+										<button onClick={() => this.deleteTrack(index)}>delete</button>
+									</span>
+								}
+								
+								{ track.edit
+									?
+									<form onSubmit={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: false}}}) })}>
+										<input type="text" value={track.name} onChange={e => this.handleChange(e.target.value)} />
+										<input type="submit" value="Submit" />
+									</form>
+									: null
+								}
+
 							</li>
 						)}
 					</ul>
