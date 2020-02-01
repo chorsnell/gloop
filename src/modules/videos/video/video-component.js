@@ -4,6 +4,7 @@ import YouTube from 'react-youtube';
 import TrackRange from '../../track/track-range';
 import store from 'store';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import update from 'react-addons-update'; // ES6
 // Example plugin usage:
 //var operationsPlugin = require('store/plugins/operations');
 //store.addPlugin(operationsPlugin)
@@ -66,6 +67,28 @@ class VideoComponent extends React.Component {
 
 		
 		this.TrackRangeElement = React.createRef();
+
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleChange(value) {
+		//this.setState({trackName: event.target.value});
+		console.log(value);
+		this.setState({
+			tracks: update(this.state.tracks, {1: {name: {$set: value}}})
+		}, () => {
+			console.log(this.state.video);
+			const video = this.state.video;
+			video.tracks = this.state.tracks;
+
+			var videos = store.get('videos') || [];
+			videos[this.state.index] = video;
+			store.set('videos', videos);
+		});
+	}
+
+	handleSubmit(event) {
 	}
 
 	restartTrack() {
@@ -187,14 +210,14 @@ class VideoComponent extends React.Component {
 	 * @memberof VideoComponent
 	 */
 	rangeHandler(event) {
-		this.TrackRangeElement.current.changeTrack(event.range);
+		this.TrackRangeElement.current.changeTrack(event);
 		console.log('rangeHandler', event);
 		// sets range in state
 		this.setState({
 			range: event,
 		});
 		// resets player to start of range
-		this.state.player.seekTo(event.range[0]);
+		this.state.player.seekTo(event[0]);
 		// play video
 		this.playVideo();
 	}
@@ -241,7 +264,17 @@ class VideoComponent extends React.Component {
 				<section className="nav">
 					<ul>
 						{this.state.tracks.map((track, index) =>
-							<li key={index}>{track[0]} - {track[1]} - name - edit - <button onClick={() => this.rangeHandler(track)}>use</button> - <button onClick={() => this.deleteTrack(index)}>delete</button></li>
+							<li key={index}>
+								<a onClick={() => this.rangeHandler(track.range)}>
+									{track.name}<br></br>
+									{track.range[0]} - {track.range[1]}
+								</a>
+								<button onClick={() => this.editTrack(index)}>edit</button> - <button onClick={() => this.deleteTrack(index)}>delete</button>
+								<form onSubmit={this.handleSubmit}>
+									<input type="text" value={track.name} onChange={e => this.handleChange(e.target.value)} />
+									<input type="submit" value="Submit" />
+								</form>
+							</li>
 						)}
 					</ul>
 				</section>
