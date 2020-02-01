@@ -10,6 +10,7 @@
     "npm": "^6.13.7",
     "query-string": "^6.10.1",
     "react": "^16.12.0",
+    "react-addons-update": "^15.6.2",
     "react-dom": "^16.12.0",
     "react-keyboard-event-handler": "^1.5.3",
     "react-range": "^1.5.1",
