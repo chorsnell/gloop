@@ -49,6 +49,7 @@ class VideoComponent extends React.Component {
 			tracks: video.tracks || [],
 			video: video,
 			index: index, // video index
+			progressBar: {},
 		};
 
 		console.log(this.state.video);
@@ -70,6 +71,33 @@ class VideoComponent extends React.Component {
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+
+		this.progressbarClick = this.progressbarClick.bind(this);
+	}
+
+	progressbarClick(e) {
+		console.log(e.nativeEvent, e.nativeEvent.target, e.nativeEvent.toElement);
+		let width = 0;
+
+		// check if clicking on track-wrapper or track-progress
+		if(e.nativeEvent.target.className === 'track-progress') {
+			width = e.nativeEvent.path[1].offsetWidth;
+		}
+		else {
+			width = e.nativeEvent.target.offsetWidth;
+		}
+		const percent = (100/width) * e.nativeEvent.offsetX;
+		const seconds = (this.state.player.getDuration()/100) * percent;
+
+		this.setState({ progressBar: {
+			x: e.nativeEvent.offsetX,
+			width: width,
+			percent: percent,
+			seconds: seconds,
+		}}, () => {
+			console.log(this.state.progressBar);
+			this.state.player.seekTo(this.state.progressBar.seconds);
+		});
 	}
 
 	handleChange(value) {
@@ -152,7 +180,7 @@ class VideoComponent extends React.Component {
 		});
 
 		// if current time outside of range, restart loop
-		if (this.state.player.getCurrentTime() >= this.state.range[1]) {
+		if (this.state.player.getCurrentTime() >= this.state.range[1]) { // TODO need to make it so you can skip past range
 			this.state.player.seekTo(this.state.range[0]);
 		}
 	}
@@ -242,7 +270,8 @@ class VideoComponent extends React.Component {
 						containerClassName="video"
 					/>
 					<div className="controls">
-						<div className="track-wrapper">
+						<div className="track-wrapper" 
+								onClick={this.progressbarClick}>
 							<div
 								className="track-progress"
 								style={{ width: this.state.progress + '%' }}
