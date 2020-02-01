@@ -1,0 +1,36 @@
+.videos-list {
+	background: #202020;
+	padding: 0 20px;
+
+	form {
+		width: 100%;
+		text-align: center;
+		padding: 20px;
+		input {
+			width: 25%;
+			padding: 10px;
+			border: 0;
+		}
+		button {
+			padding: 10px 30px;
+			margin: 0 0 0 20px;
+			background: #000000;
+			color: #ffffff;
+			border: 0;
+		}
+	}
+
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+		display: grid;
+		grid-template-columns: repeat(auto-fit,minmax(480px, 1fr)); 
+		li {
+			margin: 0 0 20px 0;
+			a {
+				color: #ffffff;
+			}
+		}
+	}
+}

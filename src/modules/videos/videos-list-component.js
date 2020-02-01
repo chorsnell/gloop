@@ -1,6 +1,6 @@
 import React from 'react';
 import VideoListItemComponent from './videos-list-item-component';
-import './Videos.css';
+import './Videos.scss';
 import store from 'store';
 import queryString from 'query-string';
 
@@ -34,7 +34,7 @@ class VideosListComponent extends React.Component {
 		//value: 'ZZYWbx8mqZc',
 		//value: '8R6StQfLNbw',
 		//value: 'ogl16QSw6aY',
-		value: 'https://www.youtube.com/watch?v=PewShF3gNG4',
+		value: '',
 		videos: store.get('videos') || videosMock
     };
 
@@ -110,13 +110,10 @@ class VideosListComponent extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="videos-list">
         <form onSubmit={this.handleSubmit}>
-          <label>
-            Import:
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
+        	<input type="text" value={this.state.value} placeholder="https://www.youtube.com/watch?v=PewShF3gNG4" onChange={this.handleChange} />
+        	<button>Import</button>
         </form>
         <ul>
             {this.state.videos.map(function(video, index) {
