@@ -4,6 +4,8 @@ import YouTube from 'react-youtube';
 import TrackRange from '../../track/track-range';
 import store from 'store';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import update from 'react-addons-update'; // ES6
+import TrackItemComponent from '../../track/track-item';
 // Example plugin usage:
 //var operationsPlugin = require('store/plugins/operations');
 //store.addPlugin(operationsPlugin)
@@ -34,10 +36,10 @@ class VideoComponent extends React.Component {
 	constructor(props) {
 		super(props);
 
+		// get current video and index and add to state
 		var videos = store.get('videos') || [];
 		const video = videos.find((v) => v.id === props.match.params.id);
 		const index = videos.findIndex((v) => v.id === props.match.params.id);
-		console.log('main', video, index);
 
 		this.state = {
 			videoId: props.match.params.id,
@@ -48,9 +50,8 @@ class VideoComponent extends React.Component {
 			tracks: video.tracks || [],
 			video: video,
 			index: index, // video index
+			trackName: null,
 		};
-
-		console.log(this.state.video);
 
 		this.onReady = this.onReady.bind(this);
 		this.playVideo = this.playVideo.bind(this);
@@ -66,6 +67,20 @@ class VideoComponent extends React.Component {
 
 		
 		this.TrackRangeElement = React.createRef();
+
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleChange(event) {
+		//this.setState({trackName: event.target.value});
+		console.log(event);
+		this.setState({
+			//tracks: update(this.state.tracks, {1: {name: {$set: 'updated field name'}}})
+		})
+	}
+
+	handleSubmit(event) {
 	}
 
 	restartTrack() {
@@ -187,14 +202,14 @@ class VideoComponent extends React.Component {
 	 * @memberof VideoComponent
 	 */
 	rangeHandler(event) {
-		this.TrackRangeElement.current.changeTrack(event.range);
+		this.TrackRangeElement.current.changeTrack(event);
 		console.log('rangeHandler', event);
 		// sets range in state
 		this.setState({
 			range: event,
 		});
 		// resets player to start of range
-		this.state.player.seekTo(event.range[0]);
+		this.state.player.seekTo(event[0]);
 		// play video
 		this.playVideo();
 	}
@@ -240,9 +255,22 @@ class VideoComponent extends React.Component {
 				</section>
 				<section className="nav">
 					<ul>
-						{this.state.tracks.map((track, index) =>
-							<li key={index}>{track[0]} - {track[1]} - name - edit - <button onClick={() => this.rangeHandler(track)}>use</button> - <button onClick={() => this.deleteTrack(index)}>delete</button></li>
-						)}
+{/*  						{this.state.tracks.map((track, index) =>
+							<li key={index}>
+								<a onClick={() => this.rangeHandler(track.range)}>
+									{track.name}<br></br>
+									{track.range[0]} - {track.range[1]}
+								</a>
+								<button onClick={() => this.editTrack(index)}>edit</button> - <button onClick={() => this.deleteTrack(index)}>delete</button>
+								<form onSubmit={this.handleSubmit}>
+									<input type="text" value={track.name} onChange={this.handleChange} />
+									<input type="submit" value="Submit" />
+								</form>
+							</li>
+						)} */}
+						{this.state.tracks.map((track, index) => {
+							return <TrackItemComponent TrackRangeElement={this.TrackRangeElement} rangeHandler={() => this.rangeHandler(track.range)} handleSubmit={() => this.handleSubmit} key={index} track={track} />;
+						})}
 					</ul>
 				</section>
 			</div>
