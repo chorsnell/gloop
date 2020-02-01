@@ -50,6 +50,7 @@ class VideoComponent extends React.Component {
 			video: video,
 			index: index, // video index
 			progressBar: {},
+			playingTrack: false, // this shows if we are playing a loopable track
 		};
 
 		console.log(this.state.video);
@@ -88,6 +89,18 @@ class VideoComponent extends React.Component {
 		}
 		const percent = (100/width) * e.nativeEvent.offsetX;
 		const seconds = (this.state.player.getDuration()/100) * percent;
+
+		
+
+		// checks if in loop
+		if(seconds > this.state.range[0] && seconds < this.state.range[1]) {
+			this.setState({ playingTrack: true });
+		}
+		else {
+			this.setState({ playingTrack: false });
+		}
+
+		// sets state
 
 		this.setState({ progressBar: {
 			x: e.nativeEvent.offsetX,
@@ -179,8 +192,8 @@ class VideoComponent extends React.Component {
 				this.state.player.getCurrentTime(),
 		});
 
-		// if current time outside of range, restart loop
-		if (this.state.player.getCurrentTime() >= this.state.range[1]) { // TODO need to make it so you can skip past range
+		// if in loop, and current time outside of range, restart loop
+		if (this.state.playingTrack === true && this.state.player.getCurrentTime() >= this.state.range[1]) {
 			this.state.player.seekTo(this.state.range[0]);
 		}
 	}
@@ -238,6 +251,11 @@ class VideoComponent extends React.Component {
 	 * @memberof VideoComponent
 	 */
 	rangeHandler(event) {
+		// sets in loop
+		this.setState({
+			playingTrack: true
+		});
+		// sets track range
 		this.TrackRangeElement.current.changeTrack(event);
 		console.log('rangeHandler', event);
 		// sets range in state
