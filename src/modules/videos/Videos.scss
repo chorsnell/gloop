@@ -1,11 +1,19 @@
 .videos-list {
-	background: #202020;
 	padding: 0 20px;
+
+	.intro {
+		color: #ffffff;
+		text-align: center;
+		margin: 25px;
+		h1 {
+			margin: 0 0 20px 0;
+		}
+	}
 
 	form {
 		width: 100%;
 		text-align: center;
-		padding: 20px;
+		padding: 20px 0 0 0;
 		input {
 			width: 25%;
 			padding: 10px;
@@ -30,10 +38,6 @@
 			margin: 0 0 20px 0;
 			a {
 				color: #ffffff;
-			}
-			span {
-				display: block;
-				float: right;
 			}
 		}
 	}
