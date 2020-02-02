@@ -32,27 +32,39 @@
 		margin: 0;
 		list-style-type: none;
         li {
-            padding: 20px;
             border-bottom: 1px #000000 solid;
             color: #ffffff;
-            
-			span {
-				display: block;
-                float: right;
+
+            div {
+                width: 100%;
+                display: flex;
+                a {
+                    padding: 20px 0 20px 20px;
+                    cursor: pointer;
+                    display: flex;
+                    width: 100%;
+                }
                 
-                button {
-                    padding: 15px;
-                    border: 0;
-                    background: #101010;
-                    color: #ffffff;
-                    margin: 0 0 0 10px;
-                    .svg-inline--fa {
+                span {
+                    padding: 20px 20px 20px 0;
+                    display: block;
+                    display: flex;
+                    
+                    button {
+                        padding: 15px;
+                        border: 0;
+                        background: #101010;
+                        color: #ffffff;
                         margin: 0 0 0 10px;
+                        .svg-inline--fa {
+                            margin: 0;
+                        }
                     }
                 }
             }
             
             form {
+                padding: 20px;
                 input {
                     padding: 15px;
                     border: 0;
