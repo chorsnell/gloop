@@ -87,6 +87,17 @@ class VideoComponent extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 
 		this.progressbarClick = this.progressbarClick.bind(this);
+
+		this.displayTime = this.displayTime.bind(this);
+	}
+
+	
+	displayTime (seconds) {
+		const format = val => `0${Math.floor(val)}`.slice(-2)
+		const hours = seconds / 3600
+		const minutes = (seconds % 3600) / 60
+	  
+		return [minutes, seconds % 60].map(format).join(':')
 	}
 
 	progressbarClick(e) {
@@ -308,7 +319,7 @@ class VideoComponent extends React.Component {
 								style={{ width: this.state.progress + '%' }}
 							></div>
 						</div>
-						<TrackRange rangeHandler={this.rangeHandler} duration={this.state.duration} ref={this.TrackRangeElement} />
+						<TrackRange rangeHandler={this.rangeHandler} displayTime={this.displayTime} duration={this.state.duration} ref={this.TrackRangeElement} />
 						<div className="buttons">
 							<div className="left">
 								<button onClick={this.playVideo}>Play</button>
@@ -350,7 +361,7 @@ class VideoComponent extends React.Component {
 									<div>
 									<a onClick={() => this.rangeHandler(track.range)}>
 										{track.name}<br />
-										{track.range[0]} - {track.range[1]}
+										{this.displayTime(track.range[0])} - {this.displayTime(track.range[1])}
 									</a>
 									<span>
 										<button onClick={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: true}}}) })}><FontAwesomeIcon icon={faPen} /></button>
