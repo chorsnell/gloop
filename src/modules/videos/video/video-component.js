@@ -1,10 +1,23 @@
 import React from 'react';
-import './video.css';
+import './video.scss';
 import YouTube from 'react-youtube';
 import TrackRange from '../../track/track-range';
 import store from 'store';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import update from 'immutability-helper'; // ES6
+
+import {
+	faPen,
+	faTrash,
+  faCog,
+  faSpinner,
+  faQuoteLeft,
+  faSquare,
+  faCheckSquare
+} from '@fortawesome/free-solid-svg-icons'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 // Example plugin usage:
 //var operationsPlugin = require('store/plugins/operations');
 //store.addPlugin(operationsPlugin)
@@ -309,28 +322,37 @@ class VideoComponent extends React.Component {
 					</div>
 				</section>
 				<section className="nav">
+					{
+						this.state.tracks.length === 0
+						?
+						<div className="no-tracks">
+							<h2>No loops saved</h2>
+							<p>Create one by using the range sliders at the bottom then pressing 'save'</p>
+						</div>
+						: null
+					}
 					<ul>
 						{this.state.tracks.map((track, index) =>
 							<li key={index}>
-								<a onClick={() => this.rangeHandler(track.range)}>
-									<label>{track.name}</label><br />
-									{track.range[0]} - {track.range[1]}
-								</a>
-								{ track.edit
-									? null :
-									<span>
-										<button onClick={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: true}}}) })}>edit</button>
-										<button onClick={() => this.deleteTrack(index)}>delete</button>
-									</span>
-								}
+
 								
 								{ track.edit
 									?
 									<form onSubmit={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: false}}}) })}>
 										<input type="text" value={track.name} onChange={e => this.handleChange(e.target.value)} />
-										<input type="submit" value="Submit" />
+										<button>Save </button>
 									</form>
-									: null
+									:
+									<div>
+									<span>
+										<button onClick={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: true}}}) })}>edit <FontAwesomeIcon icon={faPen} /></button>
+										<button onClick={() => this.deleteTrack(index)}>delete <FontAwesomeIcon icon={faTrash} /></button>
+									</span>
+									<a onClick={() => this.rangeHandler(track.range)}>
+										<label>{track.name}</label><br />
+										{track.range[0]} - {track.range[1]}
+									</a>
+									</div>
 								}
 
 							</li>
