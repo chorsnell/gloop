@@ -4,28 +4,104 @@ import './Videos.scss';
 import store from 'store';
 import queryString from 'query-string';
 
-const videosMock = [
-  {
-    "title": "The Jimi Hendrix Experience - Purple Haze (Audio)",
-    "id": "WGoDaYjdfSg"
-  },
-  {
-    "title": "Metallica: Nothing Else Matters (Official Music Video)",
-    "id": "tAGnKpE4NCI"
-  },
-  {
-    "title": "Metallica-Master Of Puppets (Lyrics)",
-    "id": "xnKhsTXoKCI"
-  },
-  {
-    "title": "The Troggs- Wild Thing",
-    "id": "4qHX493bB3U"
-  },
-  {
-    "title": "Oasis - Songbird (Official Video)",
-    "id": "0KJgBkreAuw"
-  }
-];
+const videosMock = [{
+	"title": "The Jimi Hendrix Experience - Purple Haze (Audio)",
+	"id": "WGoDaYjdfSg",
+	"tracks": [{
+		"name": "intro",
+		"range": [0, 23.5],
+		"edit": false
+	}, {
+		"name": "chords",
+		"range": [23, 73],
+		"edit": false
+	}, {
+		"name": "solo",
+		"range": [72.5, 97.5],
+		"edit": false
+	}]
+}, {
+	"title": "Metallica: Nothing Else Matters (Official Music Video)",
+	"id": "tAGnKpE4NCI",
+	"tracks": [{
+		"name": "intro - marty p1",
+		"range": [0, 37.5],
+		"edit": false
+	}, {
+		"name": "barre chord picking - marty p3",
+		"range": [37, 60.5],
+		"edit": false
+	}, {
+		"name": "marty p2",
+		"range": [60, 126],
+		"edit": false
+	}, {
+		"name": "chords",
+		"range": [125.5, 141.5],
+		"edit": false
+	}, {
+		"name": "melodic picking",
+		"range": [183, 226],
+		"edit": false
+	}, {
+		"name": "solo",
+		"range": [295.5, 324.5],
+		"edit": false
+	}]
+}, {
+	"title": "Metallica-Master Of Puppets (Lyrics)",
+	"id": "xnKhsTXoKCI",
+	"tracks": [{
+		"name": "intro",
+		"range": [3, 22],
+		"edit": false
+	}, {
+		"name": "New Loop",
+		"range": [21.5, 31]
+	}, {
+		"name": "New Loop",
+		"range": [31, 50.5]
+	}]
+}, {
+	"title": "Iron Maiden - Afraid To Shoot Strangers (Official Video)",
+	"id": "0c9iYZdsZMM",
+	"tracks": [{
+		"name": "intro",
+		"range": [0, 38],
+		"edit": false
+	}, {
+		"name": "rhythm",
+		"range": [0, 159],
+		"edit": false
+	}, {
+		"name": "epic riff",
+		"range": [158.5, 214.5],
+		"edit": false
+	}, {
+		"name": "gallop",
+		"range": [213, 247.5],
+		"edit": false
+	}, {
+		"name": "solo",
+		"range": [245.5, 277.5],
+		"edit": false
+	}, {
+		"name": "afraid!!",
+		"range": [276, 308],
+		"edit": false
+	}, {
+		"name": "bridge",
+		"range": [323, 347.5],
+		"edit": false
+	}]
+}, {
+	"title": "Blues Jam Track Key of A (Blues Backing Tracks)",
+	"id": "zj9lDIqVTuI",
+	"tracks": [{
+		"name": "New Loop",
+		"range": [0, 350]
+	}]
+}];
 
 class VideosListComponent extends React.Component {
   constructor(props) {
@@ -90,7 +166,8 @@ class VideosListComponent extends React.Component {
         that.setState(state => {
           const videos = [...state.videos, {
             "title": data.items[0].snippet.title,
-            "id": state.value,
+			"id": ytUrl.query.v,
+			"tracks": [],
           }];
     
           store.set('videos', videos);
