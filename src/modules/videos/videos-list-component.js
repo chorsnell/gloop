@@ -115,6 +115,11 @@ class VideosListComponent extends React.Component {
         	<input type="text" value={this.state.value} placeholder="https://www.youtube.com/watch?v=PewShF3gNG4" onChange={this.handleChange} />
         	<button>Import</button>
         </form>
+		<div className="intro">
+			<h1>gLoop - Youtube Video looper for Guitar</h1>
+			<p>Import any Youtube URL, or try out one of these pre-configured demos</p>
+		</div>
+
         <ul>
             {this.state.videos.map(function(video, index) {
               return <VideoListItemComponent key={index} video={video} />;
