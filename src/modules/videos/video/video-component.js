@@ -348,14 +348,14 @@ class VideoComponent extends React.Component {
 									</form>
 									:
 									<div>
-									<span>
-										<button onClick={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: true}}}) })}>edit <FontAwesomeIcon icon={faPen} /></button>
-										<button onClick={() => this.deleteTrack(index)}>delete <FontAwesomeIcon icon={faTrash} /></button>
-									</span>
 									<a onClick={() => this.rangeHandler(track.range)}>
-										<label>{track.name}</label><br />
+										{track.name}<br />
 										{track.range[0]} - {track.range[1]}
 									</a>
+									<span>
+										<button onClick={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: true}}}) })}><FontAwesomeIcon icon={faPen} /></button>
+										<button onClick={() => this.deleteTrack(index)}><FontAwesomeIcon icon={faTrash} /></button>
+									</span>
 									</div>
 								}
 
