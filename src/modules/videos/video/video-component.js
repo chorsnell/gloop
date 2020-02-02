@@ -224,6 +224,9 @@ class VideoComponent extends React.Component {
 			player: event.target,
 			progress: 0,
 			duration: event.target.getDuration(),
+		}, () => {
+			// start timer
+			this.videoTimer = setInterval(this.videoTimerProgress, 100);
 		});
 	}
 
@@ -243,8 +246,6 @@ class VideoComponent extends React.Component {
 	 */
 	playVideo() {
 		this.state.player.playVideo();
-		// start timer
-		this.videoTimer = setInterval(this.videoTimerProgress, 100);
 	}
 
 	/**
@@ -254,7 +255,6 @@ class VideoComponent extends React.Component {
 	 */
 	pauseVideo() {
 		this.state.player.pauseVideo();
-		clearInterval(this.videoTimer);
 	}
 
 	/**
