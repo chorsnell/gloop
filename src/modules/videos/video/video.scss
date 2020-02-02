@@ -1,0 +1,98 @@
+.main {
+    position: fixed;
+    width: 75%;
+    height: 100%;
+    background: #343a40;
+    left: 0;
+}
+.video {
+    height: 100%;
+    iframe {
+        height: calc(100% - 170px);
+    }
+}
+
+.nav {
+    background: #2c3237;
+    height: 100%;
+    width: 25%;
+    left: 75%;
+    top: 0;
+    position: fixed;
+    overflow: auto;
+
+    div.no-tracks {
+        padding: 20px;
+        text-align: center;
+        color: #ffffff;
+    }
+
+    ul {
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+        li {
+            padding: 20px;
+            border-bottom: 1px #000000 solid;
+            color: #ffffff;
+            
+			span {
+				display: block;
+                float: right;
+                
+                button {
+                    padding: 15px;
+                    border: 0;
+                    background: #101010;
+                    color: #ffffff;
+                    margin: 0 0 0 10px;
+                    .svg-inline--fa {
+                        margin: 0 0 0 10px;
+                    }
+                }
+            }
+            
+            form {
+                input {
+                    padding: 15px;
+                    border: 0;
+                }
+                button {
+                    padding: 15px;
+                    border: 0;
+                    background: #101010;
+                    color: #ffffff;
+                    margin: 0 0 0 10px;
+                    .svg-inline--fa {
+                        margin: 0 0 0 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.controls {
+    position: absolute;
+    bottom: 0;
+    height: 170px;
+    width: 100%;
+
+    button {
+        padding: 15px;
+        border: 0;
+        background: #101010;
+        color: #ffffff;
+        margin: 0 0 0 10px;
+    }
+
+    .track-wrapper {
+        background: #303030;
+        height: 10px;
+        .track-progress {
+            background: #ff0000;
+            height: 100%;
+            width: 0;
+        }
+    }
+}
