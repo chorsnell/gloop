@@ -310,14 +310,18 @@ class VideoComponent extends React.Component {
 						</div>
 						<TrackRange rangeHandler={this.rangeHandler} duration={this.state.duration} ref={this.TrackRangeElement} />
 						<div className="buttons">
-							<button onClick={this.playVideo}>Play</button>
-							<button onClick={this.pauseVideo}>Pause</button>
-							-
-							<button onClick={() => this.setSpeed(0.5)}>0.5</button>
-							<button onClick={() => this.setSpeed(0.75)}>0.75</button>
-							<button onClick={() => this.setSpeed(1)}>1</button>
-							-
-							<button onClick={this.saveTrack}>Save</button>
+							<div className="left">
+								<button onClick={this.playVideo}>Play</button>
+								<button onClick={this.pauseVideo}>Pause</button>
+							</div>
+							<div className="center">
+								<button onClick={this.saveTrack}>Save</button>
+							</div>
+							<div className="right">
+								<button onClick={() => this.setSpeed(0.5)}>0.5</button>
+								<button onClick={() => this.setSpeed(0.75)}>0.75</button>
+								<button onClick={() => this.setSpeed(1)}>1</button>
+							</div>
 						</div>
 					</div>
 				</section>
