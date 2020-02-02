@@ -14,7 +14,7 @@ Demo - https://gloop.netlify.com/
 
 ## TODO
 
-- Tidy video controls
-- Add track loops to demo / mock videos for new users
 - Dockerise
 - Convert all displayed seconds to minutes:seconds
+- API
+- Responsive
