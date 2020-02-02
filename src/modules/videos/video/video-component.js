@@ -126,11 +126,11 @@ class VideoComponent extends React.Component {
 		});
 	}
 
-	handleChange(value) {
+	handleChange(value, index) {
 		//this.setState({trackName: event.target.value});
 		console.log(value);
 		this.setState({
-			tracks: update(this.state.tracks, {1: {name: {$set: value}}})
+			tracks: update(this.state.tracks, {[index]: {name: {$set: value}}})
 		}, () => {
 			console.log(this.state.video);
 			const video = this.state.video;
@@ -339,7 +339,7 @@ class VideoComponent extends React.Component {
 								{ track.edit
 									?
 									<form onSubmit={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: false}}}) })}>
-										<input type="text" value={track.name} onChange={e => this.handleChange(e.target.value)} />
+										<input type="text" value={track.name} onChange={e => this.handleChange(e.target.value, index)} />
 										<button>Save </button>
 									</form>
 									:
