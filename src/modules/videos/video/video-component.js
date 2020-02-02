@@ -339,7 +339,7 @@ class VideoComponent extends React.Component {
 								{ track.edit
 									?
 									<form onSubmit={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: false}}}) })}>
-										<input type="text" value={track.name} onChange={e => this.handleChange(e.target.value, index)} />
+										<input autoFocus type="text" value={track.name} onChange={e => this.handleChange(e.target.value, index)} />
 										<button>Save </button>
 									</form>
 									:
