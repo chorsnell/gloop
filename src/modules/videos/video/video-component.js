@@ -8,12 +8,7 @@ import update from 'immutability-helper'; // ES6
 
 import {
 	faPen,
-	faTrash,
-  faCog,
-  faSpinner,
-  faQuoteLeft,
-  faSquare,
-  faCheckSquare
+	faTrash
 } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -76,7 +71,11 @@ class VideoComponent extends React.Component {
 		this.rangeHandler = this.rangeHandler.bind(this);
 		this.saveTrack = this.saveTrack.bind(this);
 		this.deleteTrack = this.deleteTrack.bind(this);
+
+		this.handleKeys = this.handleKeys.bind(this);
 		this.restartTrack = this.restartTrack.bind(this);
+		this.seek = this.seek.bind(this);
+		this.playPause = this.playPause.bind(this);
 
 		this.videoTimer = null;
 
@@ -90,6 +89,49 @@ class VideoComponent extends React.Component {
 
 		this.displayTime = this.displayTime.bind(this);
 	}
+
+	// TODO move keyboard shortcuts to its own component
+
+	handleKeys(key, e) {
+		console.log(key, e);
+		// c or ctrl+home
+		if(key === 'c' || key === 'ctrl+home') {
+			this.restartTrack();
+		}
+		// left or right
+		if(key === 'left' || key === 'right') {
+			this.seek(key);
+		}
+		// space
+		if(key === 'space') {
+			this.playPause();
+		}
+	}
+	restartTrack() {
+		console.log('restart');
+		this.state.player.seekTo(this.state.range[0]);
+	}
+	seek(key) {
+		let seekTo;
+		if(key === 'left') { seekTo = this.state.player.getCurrentTime() - 5; }
+		else { seekTo = this.state.player.getCurrentTime() + 5; }
+		
+		console.log('seek', key, this.state.player.getCurrentTime(), seekTo);
+		this.state.player.seekTo(seekTo);
+	}
+	playPause() {
+		console.log('playPause');
+		let playerState = this.state.player.getPlayerState();
+		// if playing
+		if(playerState === 1) {
+			this.state.player.pauseVideo();
+		}
+		else {
+			this.state.player.playVideo();
+		}
+	}
+
+	//
 
 	
 	displayTime (seconds) {
@@ -154,11 +196,6 @@ class VideoComponent extends React.Component {
 	}
 
 	handleSubmit(event) {
-	}
-
-	restartTrack() {
-		console.log('restart');
-		this.state.player.seekTo(this.state.range[0]);
 	}
 
 	saveTrack() {
@@ -255,6 +292,7 @@ class VideoComponent extends React.Component {
 	 *
 	 * @memberof VideoComponent
 	 */
+	// TODO deprecated
 	playVideo() {
 		this.state.player.playVideo();
 	}
@@ -264,6 +302,7 @@ class VideoComponent extends React.Component {
 	 *
 	 * @memberof VideoComponent
 	 */
+	// TODO deprecated
 	pauseVideo() {
 		this.state.player.pauseVideo();
 	}
@@ -302,8 +341,8 @@ class VideoComponent extends React.Component {
 		return (
 			<div className="wrapper">
 				<KeyboardEventHandler
-					handleKeys={['c', 'ctrl+home']}
-					onKeyEvent={this.restartTrack} />
+					handleKeys={['c', 'ctrl+home', 'left', 'right', 'space']}
+					onKeyEvent={(key, e) => this.handleKeys(key, e)} />
 				<section className="main">
 					<YouTube
 						videoId={this.state.videoId} 
