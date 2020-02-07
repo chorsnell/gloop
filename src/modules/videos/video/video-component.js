@@ -8,7 +8,10 @@ import update from 'immutability-helper'; // ES6
 
 import {
 	faPen,
-	faTrash
+	faTrash,
+	faPlay,
+	faPause,
+	faSave,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -51,6 +54,7 @@ class VideoComponent extends React.Component {
 		this.state = {
 			videoId: props.match.params.id,
 			player: null,
+			playState: 0,
 			progress: 0,
 			duration: 100,
 			range: [0, 100],
@@ -64,8 +68,6 @@ class VideoComponent extends React.Component {
 		console.log(this.state.video);
 
 		this.onReady = this.onReady.bind(this);
-		this.playVideo = this.playVideo.bind(this);
-		this.pauseVideo = this.pauseVideo.bind(this);
 		this.setSpeed = this.setSpeed.bind(this);
 		this.videoTimerProgress = this.videoTimerProgress.bind(this);
 		this.rangeHandler = this.rangeHandler.bind(this);
@@ -76,6 +78,7 @@ class VideoComponent extends React.Component {
 		this.restartTrack = this.restartTrack.bind(this);
 		this.seek = this.seek.bind(this);
 		this.playPause = this.playPause.bind(this);
+		this.setPlayState = this.setPlayState.bind(this);
 
 		this.videoTimer = null;
 
@@ -120,8 +123,8 @@ class VideoComponent extends React.Component {
 		this.state.player.seekTo(seekTo);
 	}
 	playPause() {
-		console.log('playPause');
 		let playerState = this.state.player.getPlayerState();
+		console.log('playPause', playerState);
 		// if playing
 		if(playerState === 1) {
 			this.state.player.pauseVideo();
@@ -129,6 +132,14 @@ class VideoComponent extends React.Component {
 		else {
 			this.state.player.playVideo();
 		}
+		this.setPlayState()
+	}
+
+	setPlayState() {
+		let playerState = this.state.player.getPlayerState();
+		console.log('playPause', playerState);
+		// if playing
+		this.setState({ playState: playerState});
 	}
 
 	//
@@ -288,26 +299,6 @@ class VideoComponent extends React.Component {
 	}
 
 	/**
-	 * Plays video, and starts interval timer
-	 *
-	 * @memberof VideoComponent
-	 */
-	// TODO deprecated
-	playVideo() {
-		this.state.player.playVideo();
-	}
-
-	/**
-	 * Pauses video, and clears interval
-	 *
-	 * @memberof VideoComponent
-	 */
-	// TODO deprecated
-	pauseVideo() {
-		this.state.player.pauseVideo();
-	}
-
-	/**
 	 * Handles data returned from range track
 	 *
 	 * @param {*} event
@@ -328,7 +319,7 @@ class VideoComponent extends React.Component {
 		// resets player to start of range
 		this.state.player.seekTo(event[0]);
 		// play video
-		this.playVideo();
+		this.state.player.playVideo();
 	}
 
 	/**
@@ -347,6 +338,7 @@ class VideoComponent extends React.Component {
 					<YouTube
 						videoId={this.state.videoId} 
 						onReady={this.onReady}
+						onStateChange={this.setPlayState}
 						opts={opts}
 						containerClassName="video"
 					/>
@@ -361,11 +353,18 @@ class VideoComponent extends React.Component {
 						<TrackRange rangeHandler={this.rangeHandler} displayTime={this.displayTime} duration={this.state.duration} ref={this.TrackRangeElement} />
 						<div className="buttons">
 							<div className="left">
-								<button onClick={this.playVideo}>Play</button>
-								<button onClick={this.pauseVideo}>Pause</button>
+								<button onClick={this.playPause}>
+									{
+										this.state.playState === 1
+										?
+										<FontAwesomeIcon icon={faPause} />
+										:
+										<FontAwesomeIcon icon={faPlay} />
+									}
+								</button>
 							</div>
 							<div className="center">
-								<button onClick={this.saveTrack}>Save</button>
+								<button onClick={this.saveTrack}><FontAwesomeIcon icon={faSave} /></button>
 							</div>
 							<div className="right">
 								<button onClick={() => this.setSpeed(0.5)}>0.5</button>
