@@ -4,6 +4,10 @@ import './Videos.scss';
 import store from 'store';
 import queryString from 'query-string';
 
+import withFirebaseAuth from 'react-with-firebase-auth'
+import * as firebase from 'firebase/app';
+import firebaseApp, { todosRef, databaseRef } from '../../firebase';
+
 const videosMock = [{
 	"title": "The Jimi Hendrix Experience - Purple Haze (Audio)",
 	"id": "WGoDaYjdfSg",
@@ -185,6 +189,40 @@ class VideosListComponent extends React.Component {
 	}
   }
 
+  componentDidMount() {
+	console.log('componentDidMount', this.props);
+
+	// check for auth state change
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+		  console.log('user', user);
+		} else {
+		  // User is signed out.
+		  // ...
+		}
+	  });
+  }
+
+  
+
+  componentDidUpdate() {
+	//console.log('componentDidUpdate', this.props);
+/* 	if (this.props.user && this.props.user.uid) {
+		console.log('uid', this.props.user.uid);
+		console.log('currentUser', firebase.auth().currentUser);
+
+		const newvideos = videosMock.map(obj => ({ ...obj, uid: this.props.user.uid }));
+
+		this.state.videos.map(obj => {
+			console.log('obj', obj);
+
+			todosRef.child(obj.id).set({ ...obj, uid: this.props.user.uid });
+		});
+
+		console.log(newvideos);
+	} */
+  }
+
   render() {
     return (
       <div className="videos-list">
@@ -207,4 +245,12 @@ class VideosListComponent extends React.Component {
   }
 }
 
-export default VideosListComponent;
+const firebaseAppAuth = firebaseApp.auth();
+const providers = {
+  googleProvider: new firebase.auth.GoogleAuthProvider(),
+};
+
+export default withFirebaseAuth({
+	providers,
+	firebaseAppAuth,
+  })(VideosListComponent);
