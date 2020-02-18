@@ -367,8 +367,14 @@ class VideoComponent extends React.Component {
 								<button onClick={this.saveTrack}><FontAwesomeIcon icon={faSave} /></button>
 							</div>
 							<div className="right">
+								{
+									// TODO make this a select dropdown or something
+								}
 								<button onClick={() => this.setSpeed(0.5)}>0.5</button>
-								<button onClick={() => this.setSpeed(0.75)}>0.75</button>
+								<button onClick={() => this.setSpeed(0.6)}>0.6</button>
+								<button onClick={() => this.setSpeed(0.7)}>0.7</button>
+								<button onClick={() => this.setSpeed(0.8)}>0.8</button>
+								<button onClick={() => this.setSpeed(0.9)}>0.9</button>
 								<button onClick={() => this.setSpeed(1)}>1</button>
 							</div>
 						</div>
