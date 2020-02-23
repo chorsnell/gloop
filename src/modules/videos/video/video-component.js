@@ -90,7 +90,8 @@ class VideoComponent extends React.Component {
 		this.seek = this.seek.bind(this);
 		this.playPause = this.playPause.bind(this);
 		this.setPlayState = this.setPlayState.bind(this);
-		this.setBpm = this.setBpm.bind(this);
+		this.setMetronome = this.setMetronome.bind(this);
+		this.stopMetronome = this.stopMetronome.bind(this);
 
 		this.videoTimer = null;
 
@@ -102,55 +103,48 @@ class VideoComponent extends React.Component {
 		this.progressbarClick = this.progressbarClick.bind(this);
 
 		this.displayTime = this.displayTime.bind(this);
-
-		this.playTestInstrument = this.playTestInstrument.bind(this);
-	}
-
-	playTestInstrument() {
 	}
 
 	// TODO move keyboard shortcuts to its own component
 
-	setBpm() {
+	setMetronome() {
 		const { count, timeFirst, timePrevious } = this.state;
 		const timeSeconds = new Date();
 		const time = timeSeconds.getTime();
 
-		console.log(count, timeFirst, timePrevious);
-
-		this.midiSounds.playDrumsNow([49]);
-	
 		//if its been 3 seconds since last click reset the counter & previous time
 		if (timePrevious !== 0 && time - timePrevious > 3000) {
-		  this.setState({
-			count: 0,
-			timePrevious: time
-		  });
-		  return false;
+			this.setState({
+				count: 0,
+				timePrevious: time,
+			});
+			return false;
 		}
-		//if first click set the initial time and count 
+		//if first click set the initial time and count
 		if (count === 0) {
-		  this.setState({
-			timeFirst: time,
-			count: count + 1
-		  });
+			this.setState({
+				timeFirst: time,
+				count: count + 1,
+			});
 		} else {
-		  const bpmAvg = (60000 * count) / (time - timeFirst);
-		  let bpm = Math.round(bpmAvg * 100) / 100;
-		  this.setState({
-			bpm,
-			count: count + 1,
-			timePrevious: time
-		  });
+			const bpmAvg = (60000 * count) / (time - timeFirst);
+			let bpm = Math.round((bpmAvg * 100) / 100);
+			this.setState({
+				bpm,
+				count: count + 1,
+				timePrevious: time,
+			});
+
+			this.midiSounds.stopPlayLoop();
+			this.midiSounds.startPlayLoop([[[49], []]], bpm, 1 / 4);
 		}
 	}
-
-	playBpm() {
-		//if(this.state.bpm !== 0) {
-			console.log('playBpm');
-			//this.midiSounds.playBeatAt(this.midiSounds.contextTime(), [[49],[]], this.state.bpm)
-			this.midiSounds.startPlayLoop([[[49],[]]], 100, 1/4)
-		//}
+	
+	stopMetronome() {
+		this.setState({
+			bpm: 0
+		});
+		this.midiSounds.stopPlayLoop();
 	}
 
 	handleKeys(key, e) {
@@ -168,10 +162,10 @@ class VideoComponent extends React.Component {
 			this.playPause();
 		}
 		if(key === 'b') {
-			this.setBpm();
+			this.setMetronome();
 		}
 		if(key === 'n') {
-			this.playBpm();
+			this.stopMetronome()
 		}
 	}
 	restartTrack() {
@@ -443,6 +437,18 @@ class VideoComponent extends React.Component {
 										<FontAwesomeIcon icon={faPlay} />
 									}
 								</button>
+								
+								<button onClick={this.setMetronome}><FontAwesomeIcon icon={faDrum} /></button>
+								{
+									this.state.bpm > 0
+									?
+									<span>
+										<button onClick={this.stopMetronome}>BPM: {this.state.bpm}</button>
+									</span>
+									:
+									<span></span>
+								}
+								<MIDISounds ref={(ref) => (this.midiSounds = ref)} appElementName="root" instruments={[3]} />
 							</div>
 							<div className="center">
 								<button onClick={this.saveTrack}><FontAwesomeIcon icon={faSave} /></button>
@@ -456,7 +462,6 @@ class VideoComponent extends React.Component {
 										)};
 									</select>
 								</span>
-								<button onClick={this.setBpm}><FontAwesomeIcon icon={faDrum} /></button>
 							</div>
 						</div>
 					</div>
@@ -498,8 +503,6 @@ class VideoComponent extends React.Component {
 							</li>
 						)}
 					</ul>
-					<h1>BPM: {this.state.bpm}</h1>
-					<MIDISounds ref={(ref) => (this.midiSounds = ref)} appElementName="root" instruments={[3]} />
 				</section>
 			</div>
 		);
