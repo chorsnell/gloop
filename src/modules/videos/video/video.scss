@@ -21,6 +21,10 @@
     position: fixed;
     overflow: auto;
 
+    div.MIDISounds {
+        display: none;
+    }
+
     div.no-tracks {
         padding: 20px;
         text-align: center;
