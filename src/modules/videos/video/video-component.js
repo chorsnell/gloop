@@ -12,6 +12,7 @@ import {
 	faPlay,
 	faPause,
 	faSave,
+	faTachometerAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -58,12 +59,15 @@ class VideoComponent extends React.Component {
 			progress: 0,
 			duration: 100,
 			range: [0, 100],
+			playSpeed: 1,
 			tracks: video.tracks || [],
 			video: video,
 			index: index, // video index
 			progressBar: {},
 			playingTrack: false, // this shows if we are playing a loopable track
 		};
+
+		this.speedArray = [0.5,0.6,0.7,0.8,0.9,1]; // sets available speeds on youtube speed selector
 
 		console.log(this.state.video);
 
@@ -294,7 +298,12 @@ class VideoComponent extends React.Component {
 	 *
 	 * @memberof VideoComponent
 	 */
-	setSpeed(speed) {
+	setSpeed(event) {
+		const speed = parseFloat(event.target.value); // setPlaybackRate wont accept strings
+		console.log(speed);
+		this.setState({
+			playSpeed: speed
+		});
 		this.state.player.setPlaybackRate(speed);
 	}
 
@@ -367,15 +376,14 @@ class VideoComponent extends React.Component {
 								<button onClick={this.saveTrack}><FontAwesomeIcon icon={faSave} /></button>
 							</div>
 							<div className="right">
-								{
-									// TODO make this a select dropdown or something
-								}
-								<button onClick={() => this.setSpeed(0.5)}>0.5</button>
-								<button onClick={() => this.setSpeed(0.6)}>0.6</button>
-								<button onClick={() => this.setSpeed(0.7)}>0.7</button>
-								<button onClick={() => this.setSpeed(0.8)}>0.8</button>
-								<button onClick={() => this.setSpeed(0.9)}>0.9</button>
-								<button onClick={() => this.setSpeed(1)}>1</button>
+								<span className="fa">
+									<FontAwesomeIcon icon={faTachometerAlt} />
+									<select value={this.state.playSpeed} onChange={this.setSpeed}>
+										{this.speedArray.map(fbb =>
+											<option key={fbb} value={fbb}>{fbb*100+'%'}</option>
+										)};
+									</select>
+								</span>
 							</div>
 						</div>
 					</div>

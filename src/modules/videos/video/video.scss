@@ -107,8 +107,26 @@
         
         .right {
             float: right;
-            width: 450px;
+            width: 300px;
             text-align: right;
+
+            
+
+            span.fa {
+                color: #ffffff;
+                padding: 4px 0 4px 10px;
+                margin: 0 10px;
+                background: #101010;
+                display: inline-block;
+            }
+
+            select {
+                padding: 10px;
+                margin: 0 0 0 10px;
+                background: #101010;
+                color: #ffffff;
+                border: 0;
+            }
         }
     }
 
