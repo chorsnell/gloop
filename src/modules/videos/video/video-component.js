@@ -65,6 +65,7 @@ class VideoComponent extends React.Component {
 			index: index, // video index
 			progressBar: {},
 			playingTrack: false, // this shows if we are playing a loopable track
+			editTrack: null,
 		};
 
 		this.speedArray = [0.5,0.6,0.7,0.8,0.9,1]; // sets available speeds on youtube speed selector
@@ -414,11 +415,11 @@ class VideoComponent extends React.Component {
 							<li key={index}>
 
 								
-								{ track.edit
+								{ this.state.editTrack === index
 									?
-									<form onSubmit={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: false}}}) })}>
+									<form onSubmit={() => this.setState({ editTrack: null })}>
 										<input autoFocus type="text" value={track.name} onChange={e => this.handleChange(e.target.value, index)} />
-										<button>Save </button>
+										<button>Save</button>
 									</form>
 									:
 									<div>
@@ -427,7 +428,7 @@ class VideoComponent extends React.Component {
 										{this.displayTime(track.range[0])} - {this.displayTime(track.range[1])}
 									</a>
 									<span>
-										<button onClick={() => this.setState({ tracks: update(this.state.tracks, {[index]: {edit: {$set: true}}}) })}><FontAwesomeIcon icon={faPen} /></button>
+										<button onClick={() => this.setState({ editTrack: index })}><FontAwesomeIcon icon={faPen} /></button>
 										<button onClick={() => this.deleteTrack(index)}><FontAwesomeIcon icon={faTrash} /></button>
 									</span>
 									</div>
