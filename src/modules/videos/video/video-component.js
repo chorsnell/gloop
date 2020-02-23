@@ -89,8 +89,7 @@ class VideoComponent extends React.Component {
 		
 		this.TrackRangeElement = React.createRef();
 
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this); 
 
 		this.progressbarClick = this.progressbarClick.bind(this);
 
@@ -125,6 +124,8 @@ class VideoComponent extends React.Component {
 		
 		console.log('seek', key, this.state.player.getCurrentTime(), seekTo);
 		this.state.player.seekTo(seekTo);
+		// defocus so keyboard shortcuts work
+		document.activeElement.blur();
 	}
 	playPause() {
 		let playerState = this.state.player.getPlayerState();
@@ -136,7 +137,9 @@ class VideoComponent extends React.Component {
 		else {
 			this.state.player.playVideo();
 		}
-		this.setPlayState()
+		this.setPlayState();
+		// defocus so keyboard shortcuts work
+		document.activeElement.blur();
 	}
 
 	setPlayState() {
@@ -210,9 +213,6 @@ class VideoComponent extends React.Component {
 		});
 	}
 
-	handleSubmit(event) {
-	}
-
 	saveTrack() {
 		console.log('save', this.state.range);
 		
@@ -237,7 +237,9 @@ class VideoComponent extends React.Component {
 			return {
 				tracks: tracks,
 			};
-		  });
+		});
+		// defocus so keyboard shortcuts work
+		document.activeElement.blur();
 	}
 
 	deleteTrack(index) {
@@ -261,6 +263,11 @@ class VideoComponent extends React.Component {
 	 * @memberof VideoComponent
 	 */
 	videoTimerProgress() {
+		if(document.activeElement.tagName === 'IFRAME') {
+			// defocus so keyboard shortcuts work
+			document.activeElement.blur();
+		}
+
 		// sets state with progress
 		this.setState({
 			progress:
@@ -305,6 +312,8 @@ class VideoComponent extends React.Component {
 			playSpeed: speed
 		});
 		this.state.player.setPlaybackRate(speed);
+		// defocus so keyboard shortcuts work
+		document.activeElement.blur();
 	}
 
 	/**
@@ -329,6 +338,8 @@ class VideoComponent extends React.Component {
 		this.state.player.seekTo(event[0]);
 		// play video
 		this.state.player.playVideo();
+		// defocus so keyboard shortcuts work
+		document.activeElement.blur();
 	}
 
 	/**
