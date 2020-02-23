@@ -87,8 +87,9 @@
 .controls {
     position: absolute;
     bottom: 0;
-    height: 170px;
+    height: 180px;
     width: 100%;
+    color: #ffffff;
 
     .buttons {
         width: 100%;
@@ -140,7 +141,8 @@
 
     .track-wrapper {
         background: #303030;
-        height: 10px;
+        height: 20px;
+        cursor: pointer;
         .track-progress {
             background: #ff0000;
             height: 100%;
