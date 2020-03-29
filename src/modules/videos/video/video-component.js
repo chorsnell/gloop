@@ -167,6 +167,9 @@ class VideoComponent extends React.Component {
 		if(key === 'n') {
 			this.stopMetronome()
 		}
+		if(key === 's' || key === 'shift+s') {
+			this.setSpeed(key);
+		}
 	}
 	restartTrack() {
 		console.log('restart');
@@ -358,14 +361,44 @@ class VideoComponent extends React.Component {
 	/**
 	 * sets speed of video via player api
 	 *
+	 * @param {*} event can be event from select dropdown, or keystroke send from this.handleKeys
 	 * @memberof VideoComponent
 	 */
 	setSpeed(event) {
-		const speed = parseFloat(event.target.value); // setPlaybackRate wont accept strings
-		console.log(speed);
+		let speed;
+		const index = this.speedArray.indexOf(this.state.playSpeed); // TODO trying to shift up / down the speed in the speedArray
+		let newIndex = index;
+		
+		// if coming from keyboard shortcut
+		if(event === 's' || event === 'shift+s') {
+			// increase speed
+			if(event === 's') {
+				// if not max speed
+				if (index !== this.speedArray.length-1) {
+					newIndex = index+1;
+				}
+			}
+			// decrease speed
+			else if(event === 'shift+s') {
+				// if not min speed
+				if (index !== 0) {
+					newIndex = index-1;
+				}
+			}
+			// sets speed based on next / prev speedArray
+			speed = this.speedArray[newIndex];
+		}
+		// if coming from select dropdown
+		else {
+			// sets speed from select dropdown
+			speed = parseFloat(event.target.value); // setPlaybackRate wont accept strings
+		}
+		
+		// set state
 		this.setState({
 			playSpeed: speed
 		});
+		// sets youtube playback rate
 		this.state.player.setPlaybackRate(speed);
 		// defocus so keyboard shortcuts work
 		document.activeElement.blur();
@@ -407,7 +440,7 @@ class VideoComponent extends React.Component {
 		return (
 			<div className="wrapper">
 				<KeyboardEventHandler
-					handleKeys={['c', 'ctrl+home', 'left', 'right', 'space', 'b', 'n']}
+					handleKeys={['c', 'ctrl+home', 'left', 'right', 'space', 'b', 'n', 's', 'shift+s']}
 					onKeyEvent={(key, e) => this.handleKeys(key, e)} />
 				<section className="main">
 					<YouTube
